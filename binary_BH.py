@@ -311,6 +311,8 @@ for model in models:
     f.writelines(L)
     f.close()
     print("maskSPBH: ", maskSPBH, " maskSPBBH: ", maskSPBBH)
+
+    #YOU INVERT THESE BECAUSE IN PLOTTING BELOW, ma.mask requires so
     maskSP = np.invert(maskSP)
     maskpstCEBH = np.invert(maskpstCEBH)
     maskpreCEBH = np.invert(maskpreCEBH)

@@ -148,22 +148,89 @@ plt.colorbar(hist2, orientation='vertical', label="all" )
 # plt.xscale("log")
 plt.show()
 
-# Generate some data
+# # Generate some data
+# x = np.random.randn(1000)
+# y = np.random.randn(1000)
+
+# # Create the hexbin plot
+# fig, ax = plt.subplots()
+# ax.hexbin(x, y, gridsize=20, mincnt=1)
+
+# # Add marginal distributions
+# ax.hist(x, bins=20, density=True, color='blue', alpha=0.5, )
+# ax.hist(y, bins=20, density=True, orientation='horizontal', color='red', alpha=0.5)
+
+# # Add a title and labels
+# ax.set_title('Hexbin Plot with Marginal Distributions')
+# ax.set_xlabel('X')
+# ax.set_ylabel('Y')
+
+# # Show the plot
+# plt.show()
+
+# Fixing random state for reproducibility
+np.random.seed(19680801)
+
+# some random data
 x = np.random.randn(1000)
 y = np.random.randn(1000)
 
-# Create the hexbin plot
-fig, ax = plt.subplots()
-ax.hexbin(x, y, gridsize=20, mincnt=1)
 
-# Add marginal distributions
-ax.hist(x, bins=20, density=True, color='blue', alpha=0.5, )
-ax.hist(y, bins=20, density=True, orientation='horizontal', color='red', alpha=0.5)
+# def scatter_hist(x, y, ax, ax_histx, ax_histy):
+#     # no labels
+#     ax_histx.tick_params(axis="x", labelbottom=False)
+#     ax_histy.tick_params(axis="y", labelleft=False)
 
-# Add a title and labels
-ax.set_title('Hexbin Plot with Marginal Distributions')
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
+#     # the scatter plot:
+#     h = plt.hexbin(x,y)
+#     ax.hexbin(x, y)
 
-# Show the plot
-plt.show()
+#     # now determine nice limits by hand:
+#     binwidth = 0.25
+#     xymax = max(np.max(np.abs(x)), np.max(np.abs(y)))
+#     lim = (int(xymax/binwidth) + 1) * binwidth
+
+#     bins = np.arange(-lim, lim + binwidth, binwidth)
+#     ax_histx.hist(x, bins=bins)
+#     ax_histy.hist(y, bins=bins, orientation='horizontal')
+#     plt.colorbar(h,orientation='vertical', label="all" )
+
+# plt.subplot(2,1,1)   
+# # Start with a square Figure.
+# fig = plt.figure(figsize=(12, 6))
+# # Add a gridspec with two rows and two columns and a ratio of 1 to 4 between
+# # the size of the marginal axes and the main axes in both directions.
+# # Also adjust the subplot parameters for a square plot.
+# gs = fig.add_gridspec(2, 2,  width_ratios=(4, 1), height_ratios=(1, 4),
+#                       left=0.1, right=0.9, bottom=0.1, top=0.9,
+#                       wspace=0.05, hspace=0.05)
+# # Create the Axes.
+# # Draw the scatter plot and marginals.
+# ax = fig.add_subplot(gs[1, 0])
+# ax_histx = fig.add_subplot(gs[0, 0], sharex=ax)
+# ax_histy = fig.add_subplot(gs[1, 1], sharey=ax)
+# scatter_hist(x, y, ax, ax_histx, ax_histy)
+# plt.subplot(2,1,2)
+# fig = plt.figure(figsize=(12, 6))
+# # Add a gridspec with two rows and two columns and a ratio of 1 to 4 between
+# # the size of the marginal axes and the main axes in both directions.
+# # Also adjust the subplot parameters for a square plot.
+# gs = fig.add_gridspec(2, 2,  width_ratios=(4, 1), height_ratios=(1, 4),
+#                       left=0.1, right=0.9, bottom=0.1, top=0.9,
+#                       wspace=0.05, hspace=0.05)
+# # Create the Axes.
+# # Draw the scatter plot and marginals.
+# ax = fig.add_subplot(gs[1, 0])
+# ax_histx = fig.add_subplot(gs[0, 0], sharex=ax)
+# ax_histy = fig.add_subplot(gs[1, 1], sharey=ax)
+# scatter_hist(x, y, ax, ax_histx, ax_histy)
+# plt.show()
+
+f = x
+model = "Kroupa"
+name = "mp"
+np.savetxt("/data/a.saricaoglu/Files/" + model + "/" + name + "_"+ ".txt", f)
+
+array = np.loadtxt("/data/a.saricaoglu/Files/" + model + "/" + name + "_"+ ".txt")
+print(array)
+print(type(array[0]))
