@@ -1,6 +1,35 @@
 import numpy as np
 from datetime import datetime
+import os
+import logging
+import datetime as dt
+import sys
 
+pathToData = '/data/a.saricaoglu/repo/COMPAS'
+
+# script_name = os.path.basename(__file__)
+# # Configure logging
+# log_filename = f"{pathToData}/Files/{dt.datetime.now().strftime('%m.%d')}/{dt.datetime.now().strftime('%H%M')}/{script_name}_script.log"
+# os.makedirs(os.path.dirname(log_filename), exist_ok=True)
+# logging.basicConfig(filename=log_filename, level=logging.INFO, 
+#                     format='%(asctime)s - %(levelname)s - %(message)s')
+
+# # Redirect stdout and stderr to the log file
+# class StreamToLogger:
+#     def __init__(self, logger, log_level):
+#         self.logger = logger
+#         self.log_level = log_level
+#         self.linebuf = ''
+
+#     def write(self, buf):
+#         for line in buf.rstrip().splitlines():
+#             self.logger.log(self.log_level, line.rstrip())
+
+#     def flush(self):
+#         pass
+
+# sys.stdout = StreamToLogger(logging.getLogger('STDOUT'), logging.INFO)
+# sys.stderr = StreamToLogger(logging.getLogger('STDERR'), logging.ERROR)
 # def get_current_parameters():
 
 #     SPs = []
@@ -51,6 +80,7 @@ from datetime import datetime
 
 #     return arrays
 
+
 def orbital_period(m1, m2, semimajax):
     G =  39.4769264 # gravitational constant in AU^3 / (year^2 x Msun) 
     M = (np.asarray(m1) + np.asarray(m2))
@@ -64,7 +94,7 @@ def orbital_inclination(r1,r2,semimajax):
     # COMPAS output gives R in units of Rsun, hence converting AU here.
     # Also we consider the larger r_i for the calculations since if there is a BH it will always have smaller r and we want the star radius.
     R = np.maximum(np.asarray(r1),np.asarray(r2)) * 0.00465047
-    print(R)
+    #print(R)
     cosi = R/np.asarray(semimajax)
 
     return cosi
@@ -87,41 +117,28 @@ def type_change_MT(preMT1, pstMT1, preMT2, pstMT2, start_time):
     maskchangeMT2 = np.zeros(len(preMT2), dtype='bool')
     s = datetime.now()
 
-    f = open("/data/a.saricaoglu/Files/Kroupa_MT/" + "MT_typechangeLog1_" + str(s.strftime("%m.%d")) +  ".txt", "a")
-    f.writelines(["\n","\n Run :", start_time])
+    #print(f"Run : {start_time}")
 
     for i in range(0, len(preMT1)):
         if (preMT1[i] == pstMT1[i]):
             maskchangeMT1[i] = False
-            L = ['\n StellarType(1)<MT : ', str(preMT1[i]),
-                 '\n StellarType(1)>MT : ', str(pstMT1[i]),
-                 '\n No change in stellar type during mass transfer event, maskchangeMT1[',str(i), '] = ', str(maskchangeMT1[i])]
+            ##print(f'StellarType(1)<MT : {preMT1[i]}, StellarType(1)>MT : {pstMT1[i]} --> No change in stellar type during mass transfer event, maskchangeMT1[ {i} = {maskchangeMT1[i]}')
 
         else:
             maskchangeMT1[i] = True
-            L = ['\n StellarType(1)<MT : ', str(preMT1[i]),
-                 '\n StellarType(1)>MT : ', str(pstMT1[i]),
-                 '\n Change in stellar type during mass transfer event, maskchangeMT1[',str(i), '] = ', str(maskchangeMT1[i])]
-    f.writelines(L)
-    f.close()
+            #print(f'StellarType(1)<MT : {preMT1[i]}, StellarType(1)>MT : {pstMT1[i]} --> Change in stellar type during mass transfer event, maskchangeMT1[ {i} = {maskchangeMT1[i]}')
 
-    f = open("/data/a.saricaoglu/Files/Kroupa_MT/" + "MT_typechangeLog2_" + str(s.strftime("%m.%d")) +  ".txt", "a")
-    f.writelines(["\n","\n Run :", start_time])
+    #print(f"Run : {start_time}")
 
     for i in range(0, len(preMT2)):
         if (preMT2[i] == pstMT2[i]):
             maskchangeMT2[i] = False
-            L = ['\n StellarType(2)<MT : ', str(preMT2[i]),
-                 '\n StellarType(2)>MT : ', str(pstMT2[i]),
-                 '\n No change in stellar type during mass transfer event, maskchangeMT2[',str(i), '] = ', str(maskchangeMT2[i])]
+            ##print(f'StellarType(2)<MT : {preMT2[i]}, StellarType(2)>MT : {pstMT2[i]} --> No change in stellar type during mass transfer event, maskchangeMT1[ {i} = {maskchangeMT2[i]}')
 
         else:
             maskchangeMT2[i] = True
-            L = ['\n StellarType(2)<MT : ', str(preMT2[i]),
-                 '\n StellarType(2)>MT : ', str(pstMT2[i]),
-                 '\n Change in stellar type during mass transfer event, maskchangeMT2[',str(i), '] = ', str(maskchangeMT2[i])]
-    f.writelines(L)
-    f.close()
+            #print(f'StellarType(2)<MT : {preMT2[i]}, StellarType(2)>MT : {pstMT2[i]} --> Change in stellar type during mass transfer event, maskchangeMT1[ {i} = {maskchangeMT2[i]}')
+
 
     return maskchangeMT1, maskchangeMT2
 
@@ -129,41 +146,25 @@ def type_change_CE(preCE1, pstCE1, preCE2, pstCE2, start_time):
     maskchangeCE1 = np.zeros(len(preCE1), dtype='bool')
     maskchangeCE2 = np.zeros(len(preCE2), dtype='bool')
 
-    f = open("/data/a.saricaoglu/Files/Kroupa_CE/" + "CE_typechangeLog1_" + str(s.strftime("%m.%d")) +  ".txt", "a")
-    f.writelines(["\n","\n Run :", start_time])
-
     for i in range(0, len(preCE1)):
         if (preCE1[i] == pstCE1[i]):
             maskchangeCE1[i] = False
-            L = ['\n StellarType(1)<CE : ', str(preCE1[i]),
-                 '\n StellarType(1)>CE : ', str(pstCE1[i]),
-                 '\n No change in stellar type during common envelope event, maskchangeCE1[',str(i), '] = ', str(maskchangeCE1[i])]
+            ##print(f'StellarType(1)<CE : {preCE1[i]}, StellarType(1)>CE : {pstCE1[i]} --> No change in stellar type during mass transfer event, maskchangeCE1[ {i} = {maskchangeCE1[i]}')
 
         else:
             maskchangeCE1[i] = True
-            L = ['\n StellarType(1)<CE : ', str(preCE1[i]),
-                 '\n StellarType(1)>CE : ', str(pstCE1[i]),
-                 '\n Change in stellar type during common envelope event, maskchangeCE1[',str(i), '] = ', str(maskchangeCE1[i])]
-    f.writelines(L)
-    f.close()
+            #print(f'StellarType(1)<CE : {preCE1[i]}, StellarType(1)>CE : {pstCE1[i]} --> Change in stellar type during mass transfer event, maskchangeCE1[ {i} = {maskchangeCE1[i]}')
 
-    f = open("/data/a.saricaoglu/Files/Kroupa_CE/" + "CE_typechangeLog2_" + str(s.strftime("%m.%d")) +  ".txt", "a")
-    f.writelines(["\n","\n Run :", start_time])
+    #print(f"Run : {start_time}")
 
     for i in range(0, len(preCE2)):
         if (preCE2[i] == pstCE2[i]):
             maskchangeCE2[i] = False
-            L = ['\n StellarType(2)<CE : ', str(preCE2[i]),
-                 '\n StellarType(2)>CE : ', str(pstCE2[i]),
-                 '\n No change in stellar type during common envelope event, maskchangeCE2[',str(i), '] = ', str(maskchangeCE2[i])]
+            ##print(f'StellarType(2)<CE : {preCE2[i]}, StellarType(2)>CE : {pstCE2[i]}, --> No change in stellar type during mass transfer event, maskchangeCE1[ {i} = {maskchangeCE2[i]}')
 
         else:
             maskchangeCE2[i] = True
-            L = ['\n StellarType(2)<CE : ', str(preCE2[i]),
-                 '\n StellarType(2)>CE : ', str(pstCE2[i]),
-                 '\n Change in stellar type during common envelope event, maskchangeCE2[',str(i), '] = ', str(maskchangeCE2[i])]
-    f.writelines(L)
-    f.close()
+            #print(f'StellarType(2)<CE : {preCE2[i]}, StellarType(2)>CE : {pstCE2[i]} --> Change in stellar type during mass transfer event, maskchangeCE1[ {i} = {maskchangeCE2[i]}')
 
     return maskchangeCE1, maskchangeCE2
 
@@ -182,7 +183,7 @@ def find_last_mt(MTs):
 
     return masklastMT
 
-s = searchability(np.random.uniform(-1,1,10))
+# s = searchability(np.random.uniform(-1,1,10))
 
-print(np.shape(s))
-print(s)
+#print(np.shape(s))
+#print(s)
