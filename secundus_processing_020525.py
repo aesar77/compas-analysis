@@ -52,7 +52,7 @@ start_time = s.strftime("%d%m%y") + "_" + s.strftime('%H%M')
 print("Start time :", start_time)
 
 # Choose the mode to process
-mode = ["Default/","Limited/", "Default_WD_Enabled/","Limited_WD_Enabled/" ]
+mode = ["Default_WD_Enabled/","Limited_WD_Enabled/" ]
 
 # Import COMPAS specific scripts
 compasRootDir = os.environ['COMPAS_ROOT_DIR']
@@ -152,7 +152,7 @@ for mod in mode:
     # f = open(pathToData + '/Files/' + mod  + str(s.strftime("%m.%d")) +  "_general_outputs.txt", "a")
 
     # f.writelines(["\n","\n Run :", start_time])
-    print(f'Run :, {start_time}')
+    print(f'Data outputs :, {data_outputs}')
 
     i = 0
 

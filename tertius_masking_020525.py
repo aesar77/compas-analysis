@@ -51,7 +51,7 @@ start_time = s.strftime("%d%m%y") + "_" + s.strftime('%H%M')
 print("Start time :", start_time)
 
 # Choose the IMF to process
-mode = ["Default/","Limited/", "Default_WD_Enabled/","Limited_WD_Enabled/" ]
+mode = ["Default_WD_Enabled/","Limited_WD_Enabled/" ] #"Default/","Limited/", 
 
 # # Import COMPAS specific scripts
 compasRootDir = os.environ['COMPAS_ROOT_DIR']
@@ -65,13 +65,13 @@ for mod in mode:
     matplotlib.rcParams['font.size'] = 17
     matplotlib.rcParams['legend.loc'] = "upper right"
 
-    pathToData = path + '/Files/' + mod + "02.07/" #change the date accordingly the date of the files created via Sec
+    pathToData = path + '/Files/' + mod + "02.12/" #change the date accordingly the date of the files created via Sec
 
     if not os.path.exists(pathToData + str(s.strftime("%m.%d"))): 
         os.makedirs(pathToData +  str(s.strftime("%m.%d")))
     directoryf = pathToData + str(s.strftime("%m.%d"))
 
-    fit_filename = directoryf + "/tertius.fits"
+    fit_filename = pathToData + "/tertius.fits"
     hdu_pr = fits.PrimaryHDU()
     hdu_pr.writeto(fit_filename, overwrite=True)
     hdu = fits.open(fit_filename, mode='update')

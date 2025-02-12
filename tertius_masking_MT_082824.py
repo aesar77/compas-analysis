@@ -32,7 +32,6 @@ compasRootDir = os.environ['COMPAS_ROOT_DIR']
 sys.path.append(compasRootDir + '/postProcessing/PythonScripts')
 print(sys.path)
 
-from compasUtils import printCompasDetails, getEventHistory, getEventStrings
 
 # Choose an output hdf5 file to work with
 for IMF in IMFs:
